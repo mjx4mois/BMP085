@@ -5,8 +5,6 @@
      Function		: EXAMPLE_BMP085
      Create Date	: 2017/04/29
 ---------------------------------------------------------------------- */
-#ifndef __BMP085_EXAMPLE__
-#define __BMP085_EXAMPLE__
 
 #include <mega32a.h>
 #include <stdio.h>
@@ -14,8 +12,10 @@
 #include <math.h>
 #include <i2c.h>
 #include <alcd.h>
-#include "SENSOR_BMP085.h"
-#include "Porting_Layer.h"
+#include <datatype_Layer.h>
+#include <swi2c_Layer.h>
+#include <SENSOR_BMP085.h>
+
 
 void EXAMPLE_BMP085(void);
 
@@ -23,10 +23,10 @@ void EXAMPLE_BMP085(void);
 void EXAMPLE_BMP085(void)
 {
 
-        INT32S final_temperature; 
-        FLOAT final_pressure,final_sealevel_press,final_altitude;
-        CHAR8S check_flag_BMP085 = 0;
-	 CHAR8U lcd_temp[3]={0},lcd_data[6]={0};
+	INT32S final_temperature; 
+	FLOAT final_pressure,final_sealevel_press,final_altitude;
+	CHAR8S check_flag_BMP085 = 0;
+	CHAR8U lcd_temp[3]={0},lcd_data[6]={0};
 
 	 
 		i2c_stop_hang();
@@ -53,14 +53,14 @@ void EXAMPLE_BMP085(void)
 			/* print result */
 			if(check_flag_BMP085==0)
 			{
-	                    printf("Temperature : %d.%d C\r\n",final_temperature/10,final_temperature%10);
-	                    printf("Pressure    : %ld Pa (%ld.%ld hPa)\r\n",(INT32S)final_pressure,(INT32S)final_pressure/100,(INT32S)final_pressure%100);
-	                    printf("Altitude    : %f m\r\n",final_altitude);
-	                    printf("Sea leve press   : %f Pa\r\n",final_sealevel_press);
-	                    printf("--------------------BMP085--------------------\r\n\r\n");
+				printf("Temperature : %d.%d C\r\n",final_temperature/10,final_temperature%10);
+				printf("Pressure    : %ld Pa (%ld.%ld hPa)\r\n",(INT32S)final_pressure,(INT32S)final_pressure/100,(INT32S)final_pressure%100);
+				printf("Altitude    : %f m\r\n",final_altitude);
+				printf("Sea leve press   : %f Pa\r\n",final_sealevel_press);
+				printf("--------------------BMP085--------------------\r\n\r\n");
 
 
-	            		 /* BMP085 temperature */                    
+				/* BMP085 temperature */                    
 		            	lcd_gotoxy(0,0);
 		            	lcd_putsf("Temp:");     
 
@@ -85,7 +85,7 @@ void EXAMPLE_BMP085(void)
 			       lcd_putchar(67);	/* show "C"*/	
 
 
-	            		 /* BMP085 Pressure */                    
+				/* BMP085 Pressure */                    
 		            	lcd_gotoxy(0,1);
 		            	lcd_putsf("P:");    
 				/* final_pressure unit : Pa -> if  final_pressure == 99687 Pa , 996.87hPa */
@@ -106,7 +106,7 @@ void EXAMPLE_BMP085(void)
 			       lcd_putsf("hPa");/* show "hPa"*/	
 
 
-	            		 /* BMP085 Altitude */                    
+				/* BMP085 Altitude */                    
 		            	lcd_gotoxy(0,2);
 		            	lcd_putsf("Alt:");    
 				/* final_altitude unit : m -> if  final_altitude == 612 Pa , 612m */
@@ -155,4 +155,4 @@ void EXAMPLE_BMP085(void)
 			}
 		}	
 }
-#endif		//#ifndef __BMP085_EXAMPLE__
+
